@@ -1,29 +1,60 @@
-const http = require("http");
-const express = require("express");
-const morgan = require("morgan");
-const cors = require("cors");
+const http = require('http');
+const express = require('express');
+const morgan = require('morgan');
+const cors = require('cors');
 
-const userRouter = require("./router/user");
+const { Server } = require('socket.io');
+
+require('./config/mongo');
+
+const WebSockets = require('./utils/WebSockets');
+
+const auth = require('./middlewares/auth');
+
+const indexRouter = require('./router/index');
+const userRouter = require('./router/user');
+const chatRoomRouter = require('./router/chatRoom');
+const deleteRouter = require('./router/delete');
 
 const app = express();
 
+/** Get port from environment and store in Express. */
+const port = process.env.PORT || '8080';
+app.set('port', port);
+
 app.use(cors());
-app.use(morgan("dev"));
+app.use(morgan('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 
-const port = 8080;
-
-app.use("/user", userRouter);
+app.use('/', indexRouter);
+app.use('/users', userRouter);
+app.use('/room', auth.decode, chatRoomRouter);
+app.use('/delete', deleteRouter);
 
 app.use((error, req, res, next) => {
-  console.log("💥💥💥💥💥💥💥");
+  console.log('💥💥💥💥💥💥💥');
   console.log(error);
   const status = error.statusCode || 500;
   const message = error.message;
   const data = error.data;
   res.status(status).json({ message: message, data: data });
 });
+
+app.use('*', (req, res) => {
+  res
+    .status(404)
+    .json({ success: false, message: 'API endpoint does not exist' });
+});
+
 const server = http.createServer(app);
+const socketIO = new Server(server);
+/** Create socket connection */
+global.io = socketIO.listen(server);
+global.io.on('connection', WebSockets.connection);
+/** Listen on provided port, on all network interfaces. */
 server.listen(port);
-server.on("listening", () => console.log("Listening on port ", port));
+/** Event listener for HTTP server "listening" event. */
+server.on('listening', () => {
+  console.log(`Listening on port:: http://localhost:${port}/`);
+});

@@ -1,35 +1,51 @@
-const { validationResult } = require('express-validator');
+const makeValidation = require('@withvoid/make-validation');
+// models
+const UserModel = require('../models/User.js');
+const { USER_TYPES } = require('../models/User.js');
 
-exports.getAllUser = (req, res, next) => {
-  return res.status(200).json({ success: true, message: 'Ok do it well!' });
-};
-
-exports.getUserById = (req, res, next) => {
-  const { id } = req.params;
-  return res
-    .status(200)
-    .json({ success: true, message: `Ok do it well! ${id}` });
-};
-
-exports.postCreateUser = (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    const error = new Error('Validation failed');
-    error.statusCode = 422;
-    error.data = errors.array();
-    throw error;
+exports.onGetAllUsers = async (req, res) => {
+  try {
+    const users = await UserModel.getUsers();
+    return res.status(200).json({ success: true, users });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error });
   }
-  const { firstName, lastName, email, userType } = req.body;
-  const userPayload = { firstName, lastName, email, userType };
-  return res.status(200).json({
-    success: true,
-    message: `Created user with name ${firstName}`,
-    data: userPayload,
-  });
 };
+exports.onGetUserById = async (req, res) => {
+  try {
+    const user = await UserModel.getUserById(req.params.id);
+    return res.status(200).json({ success: true, user });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error });
+  }
+};
+exports.onCreateUser = async (req, res) => {
+  try {
+    const validation = makeValidation(types => ({
+      payload: req.body,
+      checks: {
+        firstName: { type: types.string },
+        lastName: { type: types.string },
+        type: { type: types.enum, options: { enum: USER_TYPES } },
+      },
+    }));
+    if (!validation.success) return res.status(400).json({ ...validation });
 
-exports.putUser = (req, res, next) => {};
-
-exports.deleteUser = (req, res, next) => {
-  const { id } = req.params;
+    const { firstName, lastName, type } = req.body;
+    const user = await UserModel.createUser(firstName, lastName, type);
+    return res.status(200).json({ success: true, user });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error });
+  }
+};
+exports.onDeleteUserById = async (req, res) => {
+  try {
+    const user = await UserModel.deleteByUserById(req.params.id);
+    return res.status(200).json({
+      success: true,
+      message: `Deleted a count of ${user.deletedCount} user.`,
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error });
+  }
 };
