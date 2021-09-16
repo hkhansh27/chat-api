@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const uuidv4 = require('uuid').v4;
 
 exports.USER_TYPES = {
-  CONSUMER: 'consumer',
-  SUPPORT: 'support',
+  ADMIN: 'admin',
+  MEMBER: 'member',
 };
 
 const userSchema = new mongoose.Schema(
@@ -88,4 +88,7 @@ userSchema.statics.deleteByUserById = async function (id) {
   }
 };
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = {
+  UserModel: mongoose.model('User', userSchema),
+  USER_TYPES: this.USER_TYPES,
+};

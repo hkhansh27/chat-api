@@ -1,9 +1,8 @@
 const makeValidation = require('@withvoid/make-validation');
 // models
-const ChatRoomModel = require('../models/ChatRoom.js');
-const { CHAT_ROOM_TYPES } = require('../models/ChatRoom.js');
-const ChatMessageModel = require('../models/ChatMessage.js');
-const UserModel = require('../models/User.js');
+const { ChatRoomModel, CHAT_ROOM_TYPES } = require('../models/ChatRoom.js');
+const { ChatMessageModel } = require('../models/ChatMessage.js');
+const { UserModel } = require('../models/User.js');
 
 exports.initiate = async (req, res) => {
   try {
@@ -14,7 +13,7 @@ exports.initiate = async (req, res) => {
           type: types.array,
           options: { unique: true, empty: false, stringOnly: true },
         },
-        type: { type: types.enum, options: { enum: CHAT_ROOM_TYPES } },
+        type: { type: types.enum, options: { enum: { ...CHAT_ROOM_TYPES } } },
       },
     }));
     if (!validation.success) return res.status(400).json({ ...validation });

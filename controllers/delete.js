@@ -1,5 +1,5 @@
-const ChatRoomModel = require('../models/ChatRoom.js');
-const ChatMessageModel = require('../models/ChatMessage.js');
+const { ChatRoomModel } = require('../models/ChatRoom.js');
+const { ChatMessageModel } = require('../models/ChatMessage.js');
 
 exports.deleteRoomById = async (req, res) => {
   try {

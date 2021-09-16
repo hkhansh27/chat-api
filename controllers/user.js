@@ -1,7 +1,6 @@
 const makeValidation = require('@withvoid/make-validation');
 // models
-const UserModel = require('../models/User.js');
-const { USER_TYPES } = require('../models/User.js');
+const { UserModel, USER_TYPES } = require('../models/User.js');
 
 exports.onGetAllUsers = async (req, res) => {
   try {
@@ -13,7 +12,7 @@ exports.onGetAllUsers = async (req, res) => {
 };
 exports.onGetUserById = async (req, res) => {
   try {
-    const user = await UserModel.getUserById(req.params.id);
+    const user = await UserModel.getUserByIds(req.params.id);
     return res.status(200).json({ success: true, user });
   } catch (error) {
     return res.status(500).json({ success: false, error: error });
@@ -26,7 +25,10 @@ exports.onCreateUser = async (req, res) => {
       checks: {
         firstName: { type: types.string },
         lastName: { type: types.string },
-        type: { type: types.enum, options: { enum: USER_TYPES } },
+        type: {
+          type: types.enum,
+          options: { enum: { ...USER_TYPES } },
+        },
       },
     }));
     if (!validation.success) return res.status(400).json({ ...validation });

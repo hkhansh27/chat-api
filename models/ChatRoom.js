@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const uuidv4 = require('uuid').v4;
 
 exports.CHAT_ROOM_TYPES = {
-  CONSUMER_TO_CONSUMER: 'consumer-to-consumer',
-  CONSUMER_TO_SUPPORT: 'consumer-to-support',
+  ADMIN_TO_MEMBER: 'admin-to-member',
+  MEMBER_TO_MEMBER: 'member-to-member',
 };
 
 const chatRoomSchema = new mongoose.Schema(
@@ -88,4 +88,7 @@ chatRoomSchema.statics.initiateChat = async function (
   }
 };
 
-module.exports = mongoose.model('ChatRoom', chatRoomSchema);
+module.exports = {
+  ChatRoomModel: mongoose.model('ChatRoom', chatRoomSchema),
+  CHAT_ROOM_TYPES: this.CHAT_ROOM_TYPES,
+};
