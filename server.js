@@ -29,6 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/', indexRouter);
 app.use('/users', userRouter);
+//user must login to create a chat message
 app.use('/room', auth.decode, chatRoomRouter);
 app.use('/delete', deleteRouter);
 

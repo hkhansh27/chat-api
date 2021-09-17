@@ -3,10 +3,12 @@ class WebSockets {
   connection(client) {
     // event fired when the chat room is disconnected
     client.on('disconnect', () => {
+      console.log('chat room is disconnected');
       this.users = this.users.filter(user => user.socketId !== client.id);
     });
     // add identity of user mapped to the socket id
     client.on('identity', userId => {
+      console.log('identity');
       this.users.push({
         socketId: client.id,
         userId: userId,
@@ -14,11 +16,13 @@ class WebSockets {
     });
     // subscribe person to chat & other user as well
     client.on('subscribe', (room, otherUserId = '') => {
+      console.log('subscribe');
       this.subscribeOtherUser(room, otherUserId);
       client.join(room);
     });
     // mute a chat room
     client.on('unsubscribe', room => {
+      console.log('unsubscribe');
       client.leave(room);
     });
   }

@@ -35,6 +35,12 @@ exports.initiate = async (req, res) => {
 exports.postMessage = async (req, res) => {
   try {
     const { roomId } = req.params;
+    const room = await ChatRoomModel.getChatRoomByRoomId(roomId);
+    if (!room) {
+      return res
+        .status(400)
+        .json({ success: false, message: 'No room exists for this id' });
+    }
     const validation = makeValidation(types => ({
       payload: req.body,
       checks: {

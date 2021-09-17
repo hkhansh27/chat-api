@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const uuidv4 = require('uuid').v4;
 
-exports.MESSAGE_TYPES = {
+const MESSAGE_TYPES = {
   TYPE_TEXT: 'text',
 };
 
