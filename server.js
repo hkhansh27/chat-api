@@ -2,9 +2,7 @@ const http = require('http');
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
-
-const { Server } = require('socket.io');
-
+const socketio = require('socket.io');
 require('./config/mongo');
 
 const WebSockets = require('./utils/WebSockets');
@@ -49,11 +47,14 @@ app.use('*', (req, res) => {
 });
 
 const server = http.createServer(app);
-const socketIO = new Server(server);
+
 /** Create socket connection */
-global.io = socketIO.listen(server);
-global.io.on('connection', WebSockets.connection);
-/** Listen on provided port, on all network interfaces. */
+global.io = socketio.listen(server);
+global.io.on('connection', client => {
+  WebSockets.connection(client);
+  console.log('Connecteddddddd');
+});
+
 server.listen(port);
 /** Event listener for HTTP server "listening" event. */
 server.on('listening', () => {
