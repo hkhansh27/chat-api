@@ -58,7 +58,9 @@ exports.postMessage = async (req, res) => {
       messagePayload,
       currentLoggedUser
     );
-    global.io.sockets.in(roomId).emit('new message', { message: post });
+
+    global.io.sockets.in(roomId).emit('newMessage', { message: post });
+
     return res.status(200).json({ success: true, post });
   } catch (error) {
     return res.status(500).json({ success: false, error: error });

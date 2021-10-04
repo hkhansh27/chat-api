@@ -52,7 +52,6 @@ const server = http.createServer(app);
 global.io = socketio.listen(server);
 global.io.on('connection', client => {
   WebSockets.connection(client);
-  console.log('Connecteddddddd');
 });
 
 server.listen(port);

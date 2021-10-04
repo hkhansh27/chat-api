@@ -29,8 +29,11 @@ class WebSockets {
 
   subscribeOtherUser(room, otherUserId) {
     const userSockets = this.users.filter(user => user.userId === otherUserId);
+
     userSockets.map(userInfo => {
-      const socketConn = global.io.sockets.connected(userInfo.socketId);
+      const _id = userInfo.id;
+      const socketConn = global.io.sockets.connected._id;
+      console.log(socketConn);
       if (socketConn) {
         socketConn.join(room);
       }
