@@ -23,6 +23,18 @@ const chatRoomSchema = new mongoose.Schema(
 );
 
 /**
+ * @return {Array} array of all chatroom
+ */
+chatRoomSchema.statics.getChatRooms = async function () {
+  try {
+    const rooms = await this.find();
+    return rooms;
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
  * @param {String} userId - id of user
  * @return {Array} array of all chatroom that the user belongs to
  */

@@ -17,6 +17,7 @@ class WebSockets {
     // subscribe person to chat & other user as well
     client.on('subscribe', (room, otherUserId = '') => {
       console.log('subscribe');
+      console.log(otherUserId);
       this.subscribeOtherUser(room, otherUserId);
       client.join(room);
     });

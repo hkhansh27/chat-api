@@ -4,6 +4,15 @@ const { ChatRoomModel, CHAT_ROOM_TYPES } = require('../models/ChatRoom.js');
 const { ChatMessageModel } = require('../models/ChatMessage.js');
 const { UserModel } = require('../models/User.js');
 
+exports.getChatRooms = async (req, res) => {
+  try {
+    const rooms = await ChatRoomModel.getChatRooms();
+    return res.status(200).json({ success: true, rooms });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error });
+  }
+};
+
 exports.initiate = async (req, res) => {
   try {
     const validation = makeValidation(types => ({
