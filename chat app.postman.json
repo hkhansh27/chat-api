@@ -1,0 +1,279 @@
+{
+	"info": {
+		"_postman_id": "5937b4bb-fb2c-42a7-b804-5e394d364ab0",
+		"name": "chat app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14528379"
+	},
+	"item": [
+		{
+			"name": "register user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Khanh 2\",\n    \"lastName\": \"Huynh\",\n    \"type\": \"member\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create chat room",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzZWQzYTlhOWJhMTM0NDQxYjdjZWIxNzg3MDQ0OWM1ZSIsInVzZXJUeXBlIjoibWVtYmVyIiwiaWF0IjoxNjcxNDQ3MTg2fQ.IBnfCTdbDii6C1Tu2YWN1dwT1auASQf5SGRb0g2rvR4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userIds\": [\n        \"e7cf97da125043f1beac54767b7c9c31\"\n    ],\n    \"type\": \"member-to-member\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/room/initiate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"room",
+						"initiate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create message in room",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzZWQzYTlhOWJhMTM0NDQxYjdjZWIxNzg3MDQ0OWM1ZSIsInVzZXJUeXBlIjoibWVtYmVyIiwiaWF0IjoxNjcxNDQ3MTg2fQ.IBnfCTdbDii6C1Tu2YWN1dwT1auASQf5SGRb0g2rvR4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "message",
+							"value": "hahaha 3",
+							"type": "text"
+						},
+						{
+							"key": "message",
+							"type": "file",
+							"src": "/Users/hkhansh/Huhukaka/mics/junk.txt",
+							"disabled": true
+						},
+						{
+							"key": "message",
+							"type": "file",
+							"src": "/Users/hkhansh/Downloads/fingerprint.mp4",
+							"disabled": true
+						},
+						{
+							"key": "type",
+							"value": "0",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/room/59e6f7855a3c40539a51f5ba7991299c/message",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"room",
+						"59e6f7855a3c40539a51f5ba7991299c",
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetch conversation in room",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTViZmQ1MDljYjc0YzA2OGQzNzQyMTFkOWQzOTg5NiIsInVzZXJUeXBlIjoibWVtYmVyIiwiaWF0IjoxNjcxNDMyODc0fQ.eyy6EOLs36MZbXq6cabKc2z3M5CzBnrMHLNJCfcuyM0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "message",
+							"value": "Hello",
+							"type": "text"
+						},
+						{
+							"key": "message",
+							"type": "file",
+							"src": "/Users/hkhansh/Downloads/chat-app/chat-app-ui/assets/images/virtual-screen.png",
+							"disabled": true
+						},
+						{
+							"key": "type",
+							"value": "2",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "message",
+							"type": "file",
+							"src": "/Users/hkhansh/Downloads/fingerprint.mp4",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/room/59e6f7855a3c40539a51f5ba7991299c",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"room",
+						"59e6f7855a3c40539a51f5ba7991299c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "recent room",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTViZmQ1MDljYjc0YzA2OGQzNzQyMTFkOWQzOTg5NiIsInVzZXJUeXBlIjoibWVtYmVyIiwiaWF0IjoxNjcxNDMyODc0fQ.eyy6EOLs36MZbXq6cabKc2z3M5CzBnrMHLNJCfcuyM0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "message",
+							"value": "Hello",
+							"type": "text"
+						},
+						{
+							"key": "message",
+							"type": "file",
+							"src": "/Users/hkhansh/Downloads/chat-app/chat-app-ui/assets/images/virtual-screen.png",
+							"disabled": true
+						},
+						{
+							"key": "type",
+							"value": "2",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "message",
+							"type": "file",
+							"src": "/Users/hkhansh/Downloads/fingerprint.mp4",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/room",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"room"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/login/3ed3a9a9ba134441b7ceb17870449c5e",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login",
+						"3ed3a9a9ba134441b7ceb17870449c5e"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
